@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
       let commentId = parseInt(commentToDelete.id[commentToDelete.id.length - 1])
       commentToDelete.remove()
       postedComments = postedComments.filter(comment => comment.id != commentId)
-      console.log(postedComments);
     }
   }
 
