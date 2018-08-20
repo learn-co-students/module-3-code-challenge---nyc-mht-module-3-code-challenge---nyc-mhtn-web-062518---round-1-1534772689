@@ -46,7 +46,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const searchTermSpan = document.createElement('span')
     h2Text.appendChild(searchTermSpan)
-    searchTermSpan.innerText += searchTerm.slice(-1)
+    if(e.key !== "Backspace") {
+      searchTermSpan.innerText += searchTerm.slice(-1)
+    }
     searchTermSpan.style.color = "red"
 
     //add li inside the div
