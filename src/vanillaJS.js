@@ -33,13 +33,14 @@ document.addEventListener('DOMContentLoaded', function() {
     commentList.appendChild(li)
   }
 
-
+//I just realized this function doesn't super need to exist, but it's a little late to be switching my code around. It pulls in the text box  value and then calls the filterCommentsArray function, where the real work gets done.
   function filterComments(e){
     e.preventDefault()
     const searchTerm = filterText.value
     filterCommentsArray(searchTerm)
   }
 
+//Creates a new array from the commentArray filtered by the search term, then calls renderComments on that array
   function filterCommentsArray(term){
     const filteredComments = commentArray.filter(word => word.includes(term))
     renderComments(filteredComments)
