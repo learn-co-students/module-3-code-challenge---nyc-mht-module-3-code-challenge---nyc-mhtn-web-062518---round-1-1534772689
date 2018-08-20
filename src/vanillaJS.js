@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
   addCommentForm.addEventListener('submit', function(e) {
     e.preventDefault()
     commentsList.innerHTML += `
-      <li>
+      <li style="display:default;">
         ${addCommentInput.value}
         <button class="delete-button">Delete</button>
       </li>
@@ -21,14 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   filterInput.addEventListener('keyup', function(e) {
     const allComments = [...commentsList.children]
-    const matchingComments = allComments.filter(comment => comment.innerText.slice(0, -8).includes(filterInput.value))
-    /////////////////// I can't get 'comment' display as strings. If I have more time, I will figure it out.
-    if (filterInput.value !== "") {
-      matchingComments.forEach(comment => {
-        commentsList.innerHTML = ""
-        commentsList.innerHTML += `${comment}`
-      })
-    }
+    const nonMatchingComments = allComments.filter(comment => !comment.innerText.slice(0, -8).includes(filterInput.value))
+    allComments.forEach(comment => comment.style = "display:list-item;")
+    nonMatchingComments.forEach(comment => {
+      comment.style = "display:none;"
+    })
   })
 
   commentsList.addEventListener('click', function(e) {
