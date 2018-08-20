@@ -30,24 +30,23 @@ document.addEventListener('DOMContentLoaded', function() {
     })
   }
 
-// my filter function can filter for input, but it doesn't work if I delete letters from the filter. I need to click on the input comment box to get them all to show up again
-
   filterCommentsForm.addEventListener("keyup", event => {
+    event.preventDefault()
+    const lis = Array.from(ul.children)
     const input = event.target.value
-    return filterInputs(input)
+    const selectedLis = lis.filter(li => li.innerText.includes(input))
+    if (selectedLis.length > 0 && input != "") {
+    ul.innerHTML= ""
+      selectedLis.forEach(li => {
+      console.log(li)
+        ul.appendChild(li)
+      })
+    } else {
+      ul.innerHTML= ""
+      lis.forEach(li => {
+        ul.appendChild(li)
+      })
+    }
   })
-
-  const filterInputs = input => {
-    let filteredLis = Array.from(ul.children).filter(li => li.innerText.includes(input))
-    console.log(filteredLis)
-    return displayFilteredLis(filteredLis)
-  }
-
-  const displayFilteredLis = filteredLis => {
-    ul.innerHTML = ""
-    filteredLis.forEach(li => {
-      ul.appendChild(li)
-    })
-  }
 
 })
