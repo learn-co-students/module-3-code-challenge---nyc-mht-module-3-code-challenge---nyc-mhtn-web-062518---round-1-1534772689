@@ -4,10 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
   //  - comments should be added to a comment list.
   //  - The new comment should appear as an <li>new comment text here</li> element wrapped in an unordered list.
   const commentForm = document.getElementById('comment-form')
+  const commentsDisplayUl = document.getElementById('comments-list')
+  let comments = []
   commentForm.addEventListener('submit', e => {
     e.preventDefault()
     const commentInputValue = document.getElementById('add-comments-input').value
-    const commentsDisplayUl = document.getElementById('comments-list')
+    comments.push(commentInputValue)
     const commentDisplayLi = document.createElement('li')
     commentDisplayLi.innerText = commentInputValue
     commentsDisplayUl.appendChild(commentDisplayLi)
@@ -19,53 +21,29 @@ document.addEventListener('DOMContentLoaded', function() {
   //  - the comments list should automatically display only comments containing the filtering term.
   //    (Hint: You could use a "keyup" event bound to the comments filtering input field).
   //  - If the user clears the filtering input all comments should be displayed again.
-  const filterForm = document.getElementById('filter-form')
-  const searchInput = document.getElementById('filter-comments-input')
-
-  searchInput.addEventListener('keyup', e => {
-    e.preventDefault()
-
-    //add the h2 after your comments
-    const searchTerm = document.getElementById('filter-comments-input').value
-    const liArray = [...document.getElementsByTagName('li')]
-    let h2Text = document.querySelector('h2')
-    const addTextSpan = document.createElement('span')
-    addTextSpan.innerText = ` comments containing: `
-
-    addTextSpan.style.color = "red"
-
-    if (searchTerm.length === 0) {
-      h2Text.innerText = "Your comments:"
-    }
-
-    if (searchTerm.length === 1) {
-      if(h2Text.innerText === "Your comments:"){
-        h2Text.appendChild(addTextSpan)
-      }
-    }
-
-    const searchTermSpan = document.createElement('span')
-    h2Text.appendChild(searchTermSpan)
-    if(e.key !== "Backspace") {
-      searchTermSpan.innerText += searchTerm.slice(-1)
-    }
-    searchTermSpan.style.color = "red"
-
-    //add li inside the div
-    if (searchTerm === "") {
-      h2Text = "Your comments: "
-      liArray.map(li => {
-         return li.style.display = "list-item"
-      })
-    }
-
-    const noneShowArray = liArray.filter((li)=> {
-      return !li.innerText.includes(searchTerm)
+  const filterCommentsField = document.getElementById('filter-comments-input')
+  const h2 = document.querySelector('h2')
+  filterCommentsField.addEventListener('keyup', e => {
+    let filteredComments = comments.filter(comment => {
+      return comment.includes(filterCommentsField.value)
     })
-    noneShowArray.map((li)=> {
-      return li.style.display = "none"
+    commentsDisplayUl.innerHTML = ''
+    filteredComments.forEach(comment => {
+      const commentDisplayLi = document.createElement('li')
+      commentDisplayLi.innerText = comment
+      commentsDisplayUl.appendChild(commentDisplayLi)
     })
+    let redWords = `comments containing "${e.target.value}"`
+
+    if (e.target.value) {
+      h2.innerHTML = `<h2>Your comments: <span style="color:red">${redWords}</span></h2>`
+    } else {
+      h2.innerText = `Your comments:`
+    }
   })
 
   // Later: Each comment should have a delete button/link.
+  commentsDisplayUl.addEventListener('click', e => {
+    e.target.remove()
+  })
 })
